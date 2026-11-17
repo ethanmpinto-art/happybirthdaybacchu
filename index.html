@@ -21,13 +21,9 @@
   --shadow: 5px 7px 0 rgba(42,43,51,.13);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -42,17 +38,9 @@ body {
   overflow-x: hidden;
 }
 
-button, input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.hidden {
-  display: none !important;
-}
+button, input { font: inherit; }
+button { cursor: pointer; }
+.hidden { display: none !important; }
 
 .paper {
   background-color: var(--paper);
@@ -75,23 +63,15 @@ button {
   transform: translateX(-50%) rotate(-4deg);
 }
 
-.hand {
-  font-family: "Caveat", cursive;
-}
+.hand { font-family: "Caveat", cursive; }
+.marker { font-family: "Permanent Marker", cursive; }
 
-.marker {
-  font-family: "Permanent Marker", cursive;
-}
-
-button:focus-visible,
-input:focus-visible {
+button:focus-visible, input:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 4px;
 }
 
-/* =====================================
-   BIRTHDAY OPENING
-===================================== */
+/* BIRTHDAY OPENING */
 
 #opening {
   min-height: 100svh;
@@ -103,8 +83,7 @@ input:focus-visible {
   overflow: hidden;
 }
 
-#opening::before,
-#opening::after {
+#opening::before, #opening::after {
   content: "";
   position: absolute;
   width: 190px;
@@ -134,9 +113,9 @@ input:focus-visible {
   transform: rotate(-1deg);
   z-index: 1;
   background-color: #fffdf1;
-  background-image:
-    linear-gradient(rgba(65,130,190,.12) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(65,130,190,.12) 1px, transparent 1px);
   background-size: 100% 27px;
+  transition: opacity .3s ease, transform .3s ease;
 }
 
 .opening-card::before {
@@ -208,120 +187,78 @@ input:focus-visible {
   color: #777;
 }
 
-/* =====================================
-   PAPER TEAR
-===================================== */
+/* PAPER TEAR: TWO FULL-SCREEN HALVES */
 
 #tear-screen {
   position: fixed;
   inset: 0;
   z-index: 10000;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   pointer-events: none;
   background: transparent;
 }
 
 .tear-paper {
   position: absolute;
-  top: -2%;
+  top: 0;
+  height: 100%;
   width: 51%;
-  height: 104%;
-  background-color: #fffdf2;
+  background-color: #fff4d8;
   background-image:
-    linear-gradient(rgba(65,130,190,.13) 1px, transparent 1px),
+    linear-gradient(rgba(65,130,190,.15) 1px, transparent 1px),
     radial-gradient(rgba(80,60,30,.08) .7px, transparent .8px);
   background-size: 100% 27px, 5px 5px;
-  border: 2px solid rgba(41,44,57,.35);
+  border: none;
   will-change: transform;
-  backface-visibility: hidden;
 }
 
 .tear-left {
   left: 0;
   clip-path: polygon(
-    0 0,100% 0,
-    98% 8%,100% 16%,
-    97% 24%,100% 32%,
-    97% 40%,100% 48%,
-    97% 56%,100% 64%,
-    97% 72%,100% 80%,
-    97% 88%,100% 96%,
-    98% 100%,0 100%
+    0 0, 100% 0,
+    97% 8%, 100% 16%,
+    96% 24%, 100% 32%,
+    96% 40%, 100% 48%,
+    96% 56%, 100% 64%,
+    96% 72%, 100% 80%,
+    96% 88%, 100% 96%,
+    97% 100%, 0 100%
   );
-  transform-origin: left center;
 }
 
 .tear-right {
   right: 0;
   clip-path: polygon(
-    0 0,100% 0,100% 100%,
-    0 100%,2% 96%,
-    0 88%,3% 80%,
-    0 72%,3% 64%,
-    0 56%,3% 48%,
-    0 40%,3% 32%,
-    0 24%,3% 16%,
+    0 0, 100% 0, 100% 100%,
+    0 100%, 3% 96%,
+    0 88%, 4% 80%,
+    0 72%, 4% 64%,
+    0 56%, 4% 48%,
+    0 40%, 4% 32%,
+    0 24%, 4% 16%,
     0 8%
   );
-  transform-origin: right center;
 }
 
 #tear-screen.playing .tear-left {
-  animation: tearLeft 1.9s cubic-bezier(.65,0,.25,1) forwards;
+  animation: paperLeft 1.9s cubic-bezier(.7,0,.2,1) forwards;
 }
 
 #tear-screen.playing .tear-right {
-  animation: tearRight 1.9s cubic-bezier(.65,0,.25,1) forwards;
+  animation: paperRight 1.9s cubic-bezier(.7,0,.2,1) forwards;
 }
 
-.tear-message {
-  position: relative;
-  z-index: 2;
-  max-width: 400px;
-  padding: 20px;
-  text-align: center;
-  font-family: "Permanent Marker", cursive;
-  font-size: clamp(1.5rem,5vw,2.5rem);
-  color: var(--red);
-  text-shadow: 2px 2px var(--yellow);
-  transition: opacity .45s ease, transform .45s ease;
+@keyframes paperLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-105%); }
 }
 
-#tear-screen.playing .tear-message {
-  opacity: 0;
-  transform: scale(.85);
+@keyframes paperRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(105%); }
 }
 
-@keyframes tearLeft {
-  0% {
-    transform: translateX(0) rotate(0);
-  }
-  18% {
-    transform: translateX(-1%) rotate(-1deg);
-  }
-  100% {
-    transform: translateX(-110%) rotate(-8deg);
-  }
-}
-
-@keyframes tearRight {
-  0% {
-    transform: translateX(0) rotate(0);
-  }
-  18% {
-    transform: translateX(1%) rotate(1deg);
-  }
-  100% {
-    transform: translateX(110%) rotate(8deg);
-  }
-}
-
-/* =====================================
-   SCRAPBOOK AND HEADER
-===================================== */
+/* SCRAPBOOK */
 
 #scrapbook {
   width: 100%;
@@ -363,10 +300,8 @@ input:focus-visible {
   width: 0%;
   background: repeating-linear-gradient(
     45deg,
-    var(--red),
-    var(--red) 8px,
-    var(--yellow) 8px,
-    var(--yellow) 16px
+    var(--red), var(--red) 8px,
+    var(--yellow) 8px, var(--yellow) 16px
   );
   transition: width .4s;
 }
@@ -376,9 +311,7 @@ input:focus-visible {
   margin-top: 7px;
 }
 
-/* =====================================
-   LETTER GRID
-===================================== */
+/* RESPONSIVE LETTER GRID */
 
 .letter-grid {
   width: min(1450px, calc(100vw - 64px));
@@ -395,32 +328,21 @@ input:focus-visible {
   min-width: 0;
   min-height: 220px;
   padding: 25px 17px 18px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
   text-align: center;
   border: 2px solid var(--ink);
   box-shadow: 4px 5px 0 rgba(0,0,0,.15);
-
   transform: rotate(var(--rotation,-1deg));
   transition: transform .2s, box-shadow .2s, opacity .2s;
   position: relative;
 }
 
-.letter-card:nth-child(3n) {
-  background: #fff0c1;
-}
-
-.letter-card:nth-child(3n + 1) {
-  background: #e7f1ff;
-}
-
-.letter-card:nth-child(3n + 2) {
-  background: #ffe5e1;
-}
+.letter-card:nth-child(3n) { background: #fff0c1; }
+.letter-card:nth-child(3n + 1) { background: #e7f1ff; }
+.letter-card:nth-child(3n + 2) { background: #ffe5e1; }
 
 .letter-card .initial {
   display: block;
@@ -433,19 +355,15 @@ input:focus-visible {
   margin-bottom: 15px;
 }
 
-.letter-card:nth-child(even) .initial {
-  color: var(--blue);
-}
+.letter-card:nth-child(even) .initial { color: var(--blue); }
 
 .letter-card .card-title {
   width: 100%;
   max-width: 230px;
   min-height: 55px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-family: "Caveat", cursive;
   font-size: 1.55rem;
   line-height: 1.2;
@@ -469,17 +387,15 @@ input:focus-visible {
   cursor: not-allowed;
 }
 
-@media (max-width:1100px) {
+@media(max-width:1100px) {
   .letter-grid {
     grid-template-columns: repeat(4,minmax(0,1fr));
     gap: 20px;
   }
 }
 
-@media (max-width:760px) {
-  #scrapbook {
-    padding: 25px 16px 50px;
-  }
+@media(max-width:760px) {
+  #scrapbook { padding: 25px 16px 50px; }
 
   .letter-grid {
     width: calc(100vw - 40px);
@@ -492,16 +408,11 @@ input:focus-visible {
     padding: 20px 12px 15px;
   }
 
-  .letter-card .initial {
-    font-size: 3.4rem;
-  }
-
-  .letter-card .card-title {
-    font-size: 1.35rem;
-  }
+  .letter-card .initial { font-size: 3.4rem; }
+  .letter-card .card-title { font-size: 1.35rem; }
 }
 
-@media (max-width:520px) {
+@media(max-width:520px) {
   .letter-grid {
     width: calc(100vw - 32px);
     grid-template-columns: repeat(2,minmax(0,1fr));
@@ -513,18 +424,11 @@ input:focus-visible {
     padding: 18px 10px;
   }
 
-  .letter-card .initial {
-    font-size: 3.1rem;
-  }
-
-  .letter-card .card-title {
-    font-size: 1.25rem;
-  }
+  .letter-card .initial { font-size: 3.1rem; }
+  .letter-card .card-title { font-size: 1.25rem; }
 }
 
-/* =====================================
-   LETTER READER
-===================================== */
+/* LETTER READER */
 
 #reader {
   max-width: 820px;
@@ -535,8 +439,7 @@ input:focus-visible {
   padding: clamp(25px,6vw,55px);
   transform: rotate(-.3deg);
   background-color: #fffdf4;
-  background-image:
-    linear-gradient(rgba(75,130,185,.13) 1px,transparent 1px);
+  background-image: linear-gradient(rgba(75,130,185,.13) 1px,transparent 1px);
   background-size: 100% 32px;
 }
 
@@ -550,9 +453,7 @@ input:focus-visible {
   font-size: 1.25rem;
 }
 
-.reader-topline span:first-child {
-  color: var(--red);
-}
+.reader-topline span:first-child { color: var(--red); }
 
 .letter-heading {
   font-family: "Permanent Marker", cursive;
@@ -584,9 +485,7 @@ input:focus-visible {
   line-height: 1.75;
 }
 
-.letter-body p {
-  margin: 0 0 22px;
-}
+.letter-body p { margin: 0 0 22px; }
 
 .letter-signoff {
   font-family: "Caveat", cursive;
@@ -641,17 +540,10 @@ input:focus-visible {
   box-shadow: 3px 3px 0 var(--ink);
 }
 
-.secondary-button.blue {
-  background: #b8d9ff;
-}
+.secondary-button.blue { background: #b8d9ff; }
+.secondary-button.red { background: #ffb8b1; }
 
-.secondary-button.red {
-  background: #ffb8b1;
-}
-
-/* =====================================
-   QUESTION GATE
-===================================== */
+/* QUESTION GATE */
 
 #question-gate {
   max-width: 650px;
@@ -695,17 +587,10 @@ input:focus-visible {
   font-size: 1.45rem;
 }
 
-.feedback.wrong {
-  color: #c0392b;
-}
+.feedback.wrong { color: #c0392b; }
+.feedback.right { color: #337a46; }
 
-.feedback.right {
-  color: #337a46;
-}
-
-/* =====================================
-   GALLERY
-===================================== */
+/* GALLERY */
 
 .gallery {
   max-width: 950px;
@@ -720,18 +605,37 @@ input:focus-visible {
 }
 
 .photo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
-  gap: 25px;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
 }
 
 .photo {
+  display: none;
+  width: min(100%, 520px);
   background: white;
   border: 2px solid var(--ink);
   padding: 10px 10px 25px;
   box-shadow: 4px 5px 0 rgba(0,0,0,.14);
   transform: rotate(var(--rotation,2deg));
   cursor: pointer;
+}
+
+.photo.active { display: block; }
+
+.slideshow-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin: 12px auto 35px;
+  font-family: "Caveat", cursive;
+  font-size: 1.4rem;
+}
+
+.slideshow-controls button {
+  min-width: 48px;
+  padding: 8px 14px;
 }
 
 .photo img {
@@ -748,9 +652,7 @@ input:focus-visible {
   margin: 10px 0 0;
 }
 
-/* =====================================
-   FINAL PAGE
-===================================== */
+/* FINAL PAGE */
 
 #final-page {
   max-width: 760px;
@@ -759,8 +661,7 @@ input:focus-visible {
   text-align: center;
   transform: rotate(-.5deg);
   background: #fffdf2;
-  background-image:
-    linear-gradient(rgba(65,130,190,.12) 1px,transparent 1px);
+  background-image: linear-gradient(rgba(65,130,190,.12) 1px,transparent 1px);
   background-size: 100% 30px;
 }
 
@@ -787,9 +688,7 @@ input:focus-visible {
   50% { transform: scale(1.13); }
 }
 
-/* =====================================
-   LIGHTBOX
-===================================== */
+/* LIGHTBOX */
 
 #lightbox {
   position: fixed;
@@ -828,17 +727,11 @@ input:focus-visible {
 }
 
 @media(max-width:600px) {
-  .reader-paper {
-    padding: 25px 19px;
-  }
+  .reader-paper { padding: 25px 19px; }
 
-  .reader-actions {
-    flex-direction: column;
-  }
+  .reader-actions { flex-direction: column; }
 
-  .reader-actions button {
-    width: 100%;
-  }
+  .reader-actions button { width: 100%; }
 }
 </style>
 </head>
@@ -846,6 +739,7 @@ input:focus-visible {
 <body>
 
 <!-- BIRTHDAY OPENING -->
+
 <section id="opening">
   <div class="opening-card paper">
     <div class="tape"></div>
@@ -871,16 +765,15 @@ input:focus-visible {
   </div>
 </section>
 
-<!-- TEARING PAPER -->
+<!-- PAPER TEAR OVERLAY -->
+
 <div id="tear-screen" class="hidden" aria-hidden="true">
   <div class="tear-paper tear-left"></div>
   <div class="tear-paper tear-right"></div>
-  <div class="tear-message">
-    A little piece of my heart, coming right up...
-  </div>
 </div>
 
 <!-- MAIN SCRAPBOOK -->
+
 <main id="scrapbook" class="hidden">
 
   <header class="top-header">
@@ -963,47 +856,6 @@ input:focus-visible {
     </div>
   </section>
 
-  <section class="gallery" id="gallery">
-    <h2>A FEW OF MY FAVOURITE PICTURES</h2>
-
-    <div class="photo-grid">
-      <div class="photo" style="--rotation:-3deg">
-        <img src="assets/wallet-childhood.jpg" alt="A childhood memory">
-        <p>Before we even knew what was coming.</p>
-      </div>
-
-      <div class="photo" style="--rotation:2deg">
-        <img src="assets/school-days.jpg" alt="School days">
-        <p>Back when you were a menace.</p>
-      </div>
-
-      <div class="photo" style="--rotation:-2deg">
-        <img src="assets/silly-selfie.jpg" alt="A silly selfie">
-        <p>My favourite kind of chaos.</p>
-      </div>
-
-      <div class="photo" style="--rotation:3deg">
-        <img src="assets/first-kiss.jpg" alt="A special memory">
-        <p>One of my favourite chapters.</p>
-      </div>
-
-      <div class="photo" style="--rotation:-2deg">
-        <img src="assets/call-me-wife.jpg" alt="A special moment">
-        <p>Well, you know where this is going.</p>
-      </div>
-
-      <div class="photo" style="--rotation:2deg">
-        <img src="assets/together.jpg" alt="Together">
-        <p>Us. That's the whole caption.</p>
-      </div>
-
-      <div class="photo" style="--rotation:-3deg">
-        <img src="assets/close-up.jpg" alt="A favourite picture">
-        <p>My favourite face.</p>
-      </div>
-    </div>
-  </section>
-
   <section id="final-page" class="paper hidden">
     <div class="tape"></div>
 
@@ -1014,7 +866,7 @@ input:focus-visible {
     <p>
       You made it through all 21 letters.
       Twenty-one songs, twenty-one pieces of my heart,
-      and twenty questions about the little world we've built.
+      and twenty-one questions about the little world we've built.
     </p>
 
     <p>
@@ -1053,6 +905,53 @@ input:focus-visible {
     </p>
   </section>
 
+  <section class="gallery hidden" id="gallery">
+    <h2>A FEW OF MY FAVOURITE PICTURES</h2>
+
+    <div class="photo-grid">
+      <div class="photo" style="--rotation:-3deg">
+        <img src="assets/wallet-childhood.jpg" alt="A childhood memory">
+        <p>Before we even knew what was coming.</p>
+      </div>
+
+      <div class="photo" style="--rotation:2deg">
+        <img src="assets/school-days.jpg" alt="School days">
+        <p>Back when you were a menace.</p>
+      </div>
+
+      <div class="photo" style="--rotation:-2deg">
+        <img src="assets/silly-selfie.jpg" alt="A silly selfie">
+        <p>My favourite kind of chaos.</p>
+      </div>
+
+      <div class="photo" style="--rotation:3deg">
+        <img src="assets/first-kiss.jpg" alt="A special memory">
+        <p>One of my favourite chapters.</p>
+      </div>
+
+      <div class="photo" style="--rotation:-2deg">
+        <img src="assets/call-me-wife.jpg" alt="A special moment">
+        <p>Well, you know where this is going.</p>
+      </div>
+
+      <div class="photo" style="--rotation:2deg">
+        <img src="assets/together.jpg" alt="Together">
+        <p>Us. That's the whole caption.</p>
+      </div>
+
+      <div class="photo" style="--rotation:-3deg">
+        <img src="assets/close-up.jpg" alt="A favourite picture">
+        <p>My favourite face.</p>
+      </div>
+    </div>
+    <div class="slideshow-controls">
+      <button class="secondary-button blue" id="previous-photo" aria-label="Previous photo">←</button>
+      <span id="photo-counter">1 / 7</span>
+      <button class="secondary-button red" id="next-photo" aria-label="Next photo">→</button>
+    </div>
+  </section>
+
+
   <p class="footer-note">
     Made with an unreasonable amount of love.
   </p>
@@ -1060,6 +959,7 @@ input:focus-visible {
 </main>
 
 <!-- PHOTO LIGHTBOX -->
+
 <div id="lightbox" class="hidden">
   <button id="close-lightbox">CLOSE ✕</button>
   <img id="lightbox-image" src="" alt="Expanded memory">
@@ -1068,7 +968,7 @@ input:focus-visible {
 <script>
 
 /* =====================================================
-   21 LETTERS AND SONGS
+   21 LETTERS AND THEIR SONGS
 ===================================================== */
 
 const letters = [
@@ -1329,107 +1229,42 @@ const letters = [
 ];
 
 /* =====================================================
-   20 QUESTIONS
+   21 QUESTIONS, EACH BEFORE ITS LETTER
 ===================================================== */
 
 const questions = [
-  {
-    q:"Where did we first know each other from, when we were little?",
-    answers:["school","jr kg","junior kg","school jr kg"]
-  },
-  {
-    q:"Until which standard did you spend your time bullying me?",
-    answers:["5th","fifth","standard 5","class 5"]
-  },
-  {
-    q:"What happened that left me feeling a little empty when we were growing up?",
-    answers:["i left school"]
-  },
-  {
-    q:"Where did we unexpectedly bump into each other again?",
-    answers:["hypercity","hyper city"]
-  },
-  {
-    q:"How many times did I try to get with you before things finally worked out?",
-    answers:["6","six","six times","6 times"]
-  },
-  {
-    q:"What's the mall where we seem to have made a tradition out of meeting?",
-    answers:["inorbit","inorbit mall"]
-  },
-  {
-    q:"On what date did I first come to pick you up after you returned from Vadodara, and we went to Inorbit?",
-    answers:["9th january","9 january","9th jan","january 9"]
-  },
-  {
-    q:"On what date did I decide that, come hell or high water, I wanted you to be my wife?",
-    answers:["20th september","20 september","20th sept","september 20","20 september 2024"]
-  },
-  {
-    q:"On what date did you finally say yes?",
-    answers:["28th dec","28 dec","28th december","28 december","december 28","28th december 2024"]
-  },
-  {
-    q:"Which movie were we watching when we got a little distracted from the actual movie?",
-    answers:["final destination bloodlines"]
-  },
-  {
-    q:"What could I hear in the background when you thought you were on mute?",
-    answers:["my fan"]
-  },
-  {
-    q:"What do you randomly start talking about when we're together?",
-    answers:["random little memories","little memories","random memories"]
-  },
-  {
-    q:"What's something you try very hard to hold back, but eventually cannot?",
-    answers:["crying","tears","to cry"]
-  },
-  {
-    q:"What's one thing you do during disagreements that makes me feel understood?",
-    answers:["understand my intentions","understanding my intentions","my intentions"]
-  },
-  {
-    q:"What did our first breakup teach us to do better when it came to understanding each other?",
-    answers:[
-      "to look at things from the others perspective",
-      "look at things from the others perspective",
-      "look at things from the other perspective",
-      "to see things from the others perspective",
-      "others perspective",
-      "other's perspective"
-    ]
-  },
-  {
-    q:"Where do you study?",
-    answers:["k j somaiya","kj somaiya","k.j. somaiya","somaiya"]
-  },
-  {
-    q:"Where did we go on 20th September?",
-    answers:["the burrow cafe","burrow cafe","the burrow"]
-  },
-  {
-    q:"What's one thing I have always wanted you to know about how I see you?",
-    answers:["how understanding you are","understanding"]
-  },
-  {
-    q:"What's the one thing I would choose to do with you, over and over again?",
-    answers:["kiss you","kissing you","to kiss you"]
-  },
-  {
-    q:"What do I hope to call you someday, apart from your name?",
-    answers:["wifey legally","wifey","legally wifey"]
-  }
+  { q:"Where did we first know each other from, when we were little?", answers:["school","jr kg","junior kg","school jr kg"] },
+  { q:"Until which standard did you spend your time bullying me?", answers:["5th","fifth","standard 5","class 5"] },
+  { q:"What happened that left me feeling a little empty when we were growing up?", answers:["i left school"] },
+  { q:"Where did we unexpectedly bump into each other again?", answers:["hypercity","hyper city"] },
+  { q:"How many times did I try to get with you before things finally worked out?", answers:["6","six","six times","6 times"] },
+  { q:"When we first started, what did I want to be for you?", answers:["someone you could rely on","someone to rely on","someone you could depend on"] },
+  { q:"Where did we go on 9 January after I picked you up when you returned from Vadodara, the place that became our little tradition?", answers:["inorbit","inorbit mall"] },
+  { q:"Where did we go on 20 September 2024, the day I decided I wanted you to be my wife?", answers:["the burrow cafe","burrow cafe","the burrow"] },
+  { q:"On what date did you finally say yes?", answers:["28th dec","28 dec","28th december","28 december","december 28","28th december 2024"] },
+  { q:"Which movie were we watching when we got a little distracted from the actual movie?", answers:["final destination bloodlines"] },
+  { q:"What could I hear in the background when you thought you were on mute?", answers:["my fan"] },
+  { q:"What do you randomly start talking about when we're together?", answers:["random little memories","little memories","random memories"] },
+  { q:"What's something you try very hard to hold back, but eventually cannot?", answers:["crying","tears","to cry"] },
+  { q:"What's one thing you do during disagreements that makes me feel understood?", answers:["understand my intentions","understanding my intentions","my intentions"] },
+  { q:"What did our first breakup teach us to do better when it came to understanding each other?", answers:["to look at things from the others perspective","look at things from the others perspective","look at things from the other perspective","to see things from the others perspective","others perspective","other's perspective"] },
+  { q:"Where do you study?", answers:["k j somaiya","kj somaiya","k.j. somaiya","somaiya"] },
+  { q:"What am I proud of you for becoming?", answers:["the woman youre becoming","the woman you are becoming","the woman youre growing into","the woman you are growing into"] },
+  { q:"What's one thing I have always wanted you to know about how I see you?", answers:["how understanding you are","understanding"] },
+  { q:"What's the one thing I would choose to do with you, over and over again?", answers:["kiss you","kissing you","to kiss you"] },
+  { q:"If I had to start our story all over again, who would I choose?", answers:["you","you again"] },
+  { q:"What do I hope to call you someday, apart from your name?", answers:["wifey legally","wifey","legally wifey"] }
 ];
 
 /* =====================================================
-   STATE AND STORAGE
+   STATE AND PROGRESS
 ===================================================== */
 
-const STORAGE_KEY = "birthday_scrapbook_progress_v3";
+const STORAGE_KEY = "birthday_scrapbook_progress_v4";
 
 let currentLetter = 0;
-let unlockedLetters = 1;
+let unlockedLetters = 0;
+let currentQuestion = 0;
 let questionPassed = false;
 let openingInProgress = false;
 
@@ -1439,8 +1274,8 @@ function loadProgress() {
 
     if (saved) {
       unlockedLetters = Math.max(
-        1,
-        Math.min(21, saved.unlockedLetters || 1)
+        0,
+        Math.min(21, saved.unlockedLetters || 0)
       );
     }
   } catch (error) {
@@ -1467,57 +1302,60 @@ function updateProgress() {
 }
 
 /* =====================================================
-   OPENING SEQUENCE
+   CORRECTED OPENING SEQUENCE
 ===================================================== */
 
 function startOpening() {
   if (openingInProgress) return;
+
   openingInProgress = true;
 
   const button = document.getElementById("open-present");
+  const opening = document.getElementById("opening");
   const tear = document.getElementById("tear-screen");
+  const scrapbook = document.getElementById("scrapbook");
 
   button.disabled = true;
   button.textContent = "OPENING YOUR PRESENT...";
 
-  tear.classList.remove("hidden");
-  tear.classList.remove("playing");
+  // Fade out the birthday card first.
+  opening.style.transition = "opacity 300ms ease";
+  opening.style.opacity = "0";
 
-  // Force browser to register the initial state before animation.
-  void tear.offsetWidth;
+  setTimeout(() => {
 
-  tear.classList.add("playing");
+    // Remove the birthday screen completely.
+    opening.classList.add("hidden");
 
-  let finished = false;
-
-  function finishOpening() {
-    if (finished) return;
-    finished = true;
-
-    // Remove the paper overlay completely.
+    // Prepare the paper overlay.
+    tear.classList.remove("hidden");
     tear.classList.remove("playing");
-    tear.classList.add("hidden");
 
-    // Remove birthday cover and reveal the scrapbook.
-    document.getElementById("opening").classList.add("hidden");
-    document.getElementById("scrapbook").classList.remove("hidden");
+    // Force browser reflow so animation starts reliably.
+    void tear.offsetWidth;
 
-    // Open Letter 1 directly. Do not show the grid first.
-    renderGrid();
-    showReader(0);
+    // Start the two halves moving apart.
+    tear.classList.add("playing");
 
-    openingInProgress = false;
-  }
+    // Wait for the animation to finish.
+    setTimeout(() => {
 
-  // Animation-end listener with a fallback in case the browser
-  // does not fire animationend.
-  const rightPaper = tear.querySelector(".tear-right");
+      // Remove the overlay completely.
+      tear.classList.remove("playing");
+      tear.classList.add("hidden");
 
-  rightPaper.addEventListener("animationend", finishOpening, {
-    once: true
-  });
+      // Reveal the scrapbook.
+      scrapbook.classList.remove("hidden");
 
-  window.setTimeout(finishOpening, 2300);
+      // The first memory question comes before Letter 1.
+      renderGrid();
+      showQuestion(0);
+
+      openingInProgress = false;
+
+    }, 1950);
+
+  }, 300);
 }
 
 document.getElementById("open-present").addEventListener(
@@ -1526,7 +1364,7 @@ document.getElementById("open-present").addEventListener(
 );
 
 /* =====================================================
-   GRID
+   SCRAPBOOK GRID
 ===================================================== */
 
 function renderGrid() {
@@ -1578,15 +1416,14 @@ function hideMainSections() {
   document.getElementById("reader").classList.add("hidden");
   document.getElementById("question-gate").classList.add("hidden");
   document.getElementById("letter-grid").classList.add("hidden");
-  document.getElementById("final-page").classList.add("hidden");
   document.getElementById("gallery").classList.add("hidden");
+  document.getElementById("final-page").classList.add("hidden");
 }
 
 function showGrid() {
   hideMainSections();
 
   document.getElementById("letter-grid").classList.remove("hidden");
-  document.getElementById("gallery").classList.remove("hidden");
 
   document.getElementById("letter-grid").scrollIntoView({
     behavior:"smooth",
@@ -1619,6 +1456,7 @@ function showReader(index) {
   document.getElementById("letter-title").textContent =
     letter.title;
 
+  // Render the original letter body without stripping its paragraphs.
   document.getElementById("letter-body").innerHTML =
     letter.body;
 
@@ -1631,7 +1469,7 @@ function showReader(index) {
     "?utm_source=generator&theme=0";
 
   document.getElementById("continue-button").textContent =
-    index === 20 ? "Finish our story ♥" : "Continue ♥";
+    index === 20 ? "Finish our story ♥" : "Next memory ♥";
 
   document.getElementById("reader").scrollIntoView({
     behavior:"smooth",
@@ -1645,13 +1483,15 @@ document.getElementById("back-to-grid").addEventListener(
 );
 
 /* =====================================================
-   QUESTIONS
+   QUESTION FLOW
 ===================================================== */
 
 function showQuestion(index) {
   hideMainSections();
 
   document.getElementById("question-gate").classList.remove("hidden");
+
+  currentQuestion = index;
 
   document.getElementById("question-text").textContent =
     questions[index].q;
@@ -1679,14 +1519,13 @@ function showQuestion(index) {
 document.getElementById("continue-button").addEventListener(
   "click",
   () => {
-    // The final letter has no additional question.
     if (currentLetter === 20) {
       showFinalPage();
       return;
     }
 
-    // Question 1 follows Letter 1, and so on.
-    showQuestion(currentLetter);
+    // Ask the next letter's question before revealing that letter.
+    showQuestion(currentLetter + 1);
   }
 );
 
@@ -1714,7 +1553,7 @@ function checkAnswer() {
     return;
   }
 
-  const acceptedAnswers = questions[currentLetter].answers
+  const acceptedAnswers = questions[currentQuestion].answers
     .map(normaliseAnswer);
 
   const correct = acceptedAnswers.includes(userAnswer);
@@ -1729,7 +1568,7 @@ function checkAnswer() {
 
     document.getElementById("submit-answer").disabled = true;
 
-    setTimeout(unlockNextLetter,1100);
+    setTimeout(unlockCurrentLetter,1100);
 
   } else {
     feedback.textContent =
@@ -1751,18 +1590,14 @@ document.getElementById("answer-input").addEventListener(
   }
 );
 
-function unlockNextLetter() {
-  // Current letter index 0 unlocks letter index 1.
-  unlockedLetters = Math.max(
-    unlockedLetters,
-    currentLetter + 2
-  );
+function unlockCurrentLetter() {
+  // Question N unlocks Letter N. No letter is shown before its question.
+  unlockedLetters = Math.max(unlockedLetters, currentQuestion + 1);
 
   saveProgress();
   renderGrid();
 
-  // Go straight into the newly unlocked letter.
-  showReader(unlockedLetters - 1);
+  showReader(currentQuestion);
 }
 
 /* =====================================================
@@ -1773,6 +1608,8 @@ function showFinalPage() {
   hideMainSections();
 
   document.getElementById("final-page").classList.remove("hidden");
+  document.getElementById("gallery").classList.remove("hidden");
+  showPhoto(0);
 
   document.getElementById("final-page").scrollIntoView({
     behavior:"smooth",
@@ -1787,6 +1624,24 @@ function showFinalPage() {
     })
   );
 }
+
+/* =====================================================
+   PHOTO SLIDESHOW
+===================================================== */
+
+let currentPhoto = 0;
+const photos = Array.from(document.querySelectorAll(".photo"));
+
+function showPhoto(index) {
+  if (!photos.length) return;
+  currentPhoto = (index + photos.length) % photos.length;
+  photos.forEach((photo, i) => photo.classList.toggle("active", i === currentPhoto));
+  document.getElementById("photo-counter").textContent =
+    (currentPhoto + 1) + " / " + photos.length;
+}
+
+document.getElementById("previous-photo").addEventListener("click", () => showPhoto(currentPhoto - 1));
+document.getElementById("next-photo").addEventListener("click", () => showPhoto(currentPhoto + 1));
 
 /* =====================================================
    PHOTO LIGHTBOX
